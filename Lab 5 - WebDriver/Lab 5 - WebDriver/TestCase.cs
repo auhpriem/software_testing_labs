@@ -98,6 +98,22 @@ namespace Lab_5___WebDriver
                 }
 
             }
+            foreach (var point in toPoints)
+            {
+                try
+                {
+                    string city = point.FindElement(By.ClassName("city")).Text;
+                    if (city != string.Empty)
+                    {
+                        Assert.IsTrue(city.Contains("Минск"));
+                    }
+                }
+                catch
+                {
+
+                }
+
+            }
         }
     }
 }
