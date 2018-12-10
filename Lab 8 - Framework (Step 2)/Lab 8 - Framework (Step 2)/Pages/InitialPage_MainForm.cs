@@ -60,22 +60,22 @@ namespace Lab_8___Framework_Step_2.Pages
         {
             Departure.Clear();
             Departure.SendKeys(departure);
-            Thread.Sleep(1500);
+            while (!CheckCityHelper()) { }
             if (withEnterPressing)
             {
                 Departure.SendKeys(Keys.Enter);
-                Thread.Sleep(1500);
+                while (CheckCityHelper()) { }
             }
         }
         public void PopulateArrival(string arrival, bool withEnterPressing)
         {
             Arrival.Clear();
             Arrival.SendKeys(arrival);
-            Thread.Sleep(1500);
+            while (!CheckCityHelper()) { }
             if (withEnterPressing)
             {
                 Arrival.SendKeys(Keys.Enter);
-                Thread.Sleep(1500);
+                while (CheckCityHelper()) { }
             }
         }
         public void PopulateDateTo(string DateFrom)
