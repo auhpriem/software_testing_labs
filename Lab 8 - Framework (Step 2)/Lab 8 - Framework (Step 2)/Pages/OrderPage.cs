@@ -17,6 +17,7 @@ namespace Lab_8___Framework_Step_2.Pages
             this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
+
         [FindsBy(How = How.XPath, Using = "//div[@class='row']//div[@class='price']//b")]
         public IList<IWebElement> TicketPrices;
 
@@ -44,55 +45,46 @@ namespace Lab_8___Framework_Step_2.Pages
 
             foreach (var point in ToPoints)
             {
-                try
+                var CityList = point.FindElements(By.ClassName("city"));
+                if (CityList.Count == 1)
                 {
-                    string cityAttribute = point.FindElement(By.ClassName("city")).Text;
+                    string cityAttribute = CityList.First().Text;
                     if (cityAttribute != string.Empty)
                     {
                         cityList.Add(cityAttribute);
                     }
                 }
-                catch { }
             }
             return cityList;
         }
+
         public List<string> GetCityFromList()
         {
             List<string> cityList = new List<string>();
             foreach (var point in FromPoints)
             {
-                try
+                var CityList = point.FindElements(By.ClassName("city"));
+                if (CityList.Count == 1)
                 {
-                    string cityAttribute = point.FindElement(By.ClassName("city")).Text;
+                    string cityAttribute = CityList.First().Text;
                     if (cityAttribute != string.Empty)
                     {
                         cityList.Add(cityAttribute);
                     }
                 }
-                catch
-                {
-
-                }
-
             }
             return cityList;
         }
+
         public bool ValidateTicketDate(string date)
         {
             foreach (var point in PageRows)
             {
-                try
+                var DataDateDepartureList = point.FindElements(By.XPath("//div[@data-date-departure='" + date + "']"));
+                if (DataDateDepartureList != null)
                 {
-                    if (point.FindElement(By.XPath("//div[@data-date-departure='" + date + "']")) != null)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-                catch
-                {
-
-                }
-
             }
             return false;
         }
@@ -101,12 +93,12 @@ namespace Lab_8___Framework_Step_2.Pages
         {
             while (true)
             {
-                try
+                var CityToList = GetCityToList();
+                if (CityToList.Count == 1)
                 {
-                    if (GetCityToList().First() != "")
+                    if (CityToList.First() != "")
                         break;
                 }
-                catch { }
             }
             bool isValid = true;
             if (!GetCityToList().First().Contains(toCity))
@@ -117,12 +109,12 @@ namespace Lab_8___Framework_Step_2.Pages
                 isValid = false;
             if (!TicketTimes.First().Text.Contains(time))
                 isValid = false;
-            if (Convert.ToInt32(TicketPrices.First().Text.Replace(" ","").Replace("₽", "")) != price)
+            if (Convert.ToInt32(TicketPrices.First().Text.Replace(" ", "").Replace("₽", "")) != price)
                 isValid = false;
 
             return isValid;
         }
-        
+
         public bool CheckPassengerCount(int passCount)
         {
             return passCount == PassengerInputs.Count();

@@ -55,63 +55,56 @@ namespace Lab_8___Framework_Step_2.Pages
         [FindsBy(How = How.XPath, Using = "//a[@class='link_sort_priceTime']//span")]
         public IWebElement MinSortTimePriceTicketPrice;
 
-
         public List<string> GetCityToList()
         {
             List<string> cityList = new List<string>();
 
             foreach (var point in ToPoints)
             {
-                try
+                var CityList = point.FindElements(By.ClassName("city"));
+                if (CityList.Count == 1)
                 {
-                    string cityAttribute = point.FindElement(By.ClassName("city")).Text;
+                    string cityAttribute = CityList.First().Text;
                     if (cityAttribute != string.Empty)
                     {
                         cityList.Add(cityAttribute);
                     }
                 }
-                catch { }
             }
             return cityList;
         }
+
         public List<string> GetCityFromList()
         {
             List<string> cityList = new List<string>();
             foreach (var point in FromPoints)
             {
-                try
+                var CityList = point.FindElements(By.ClassName("city"));
+                if (CityList.Count == 1)
                 {
-                    string cityAttribute = point.FindElement(By.ClassName("city")).Text;
+                    string cityAttribute = CityList.First().Text;
                     if (cityAttribute != string.Empty)
                     {
                         cityList.Add(cityAttribute);
                     }
                 }
-                catch
-                {
-
-                }
-
             }
             return cityList;
         }
+
         public List<string> GetDateFromList()
         {
             List<string> dateFromList = new List<string>();
             foreach (var point in FromPoints)
             {
-                try
+                var CityList = point.FindElements(By.ClassName("city"));
+                if (CityList.Count == 1)
                 {
-                    if (point.FindElement(By.ClassName("city")).Text != string.Empty)
+                    if (CityList.First().Text != string.Empty)
                     {
                         dateFromList.Add(point.GetAttribute("data-departure-time"));
                     }
                 }
-                catch
-                {
-
-                }
-
             }
             return dateFromList;
         }
@@ -142,6 +135,7 @@ namespace Lab_8___Framework_Step_2.Pages
             }
             return ticketPrices;
         }
+
         public List<string> GetTicketTimes()
         {
             List<string> ticketTimes = new List<string>();
@@ -170,7 +164,6 @@ namespace Lab_8___Framework_Step_2.Pages
             {
                 valuePairs.Add(new Tuple<int, string>(ticketPrices[i], ticketTimes[i]));
             }
-
             return valuePairs;
         }
 
@@ -181,23 +174,21 @@ namespace Lab_8___Framework_Step_2.Pages
             IList<IWebElement> PageRows = driver.FindElements(By.XPath("//div[@class='row']"));
             foreach (var el in PageRows)
             {
-                try
+                var FlightTimeList = el.FindElements(By.ClassName("flight-time"));
+                if (FlightTimeList.Count == 1)
                 {
-                    if (el.FindElement(By.ClassName("flight-time")).Text != "" )
+                    if (FlightTimeList.First().Text != "")
                     {
                         returnData = new Tuple<int, string, string>
                                 (
                                 Convert.ToInt32(el.FindElement(By.XPath("//a[@class='btn btn-primary']//b")).Text.Replace(" ", "")),
-                                el.FindElement(By.ClassName("flight-time")).Text,
+                                FlightTimeList.First().Text,
                                 TicketOrderLinks[3].GetAttribute("href")
                                 );
-                        int xxx = TicketOrderLinks.Count;
                         return returnData;
                     }
                 }
-                catch { }
             }
-
             return returnData;
         }
     }

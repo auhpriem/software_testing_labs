@@ -56,6 +56,7 @@ namespace Lab_8___Framework_Step_2.Pages
                 AutocompleteSuggestions.Add(el.GetAttribute("style"));
             return AutocompleteSuggestions.Where(el => !el.Contains("display: none;")).Count() > 0 ? true : false;
         }
+
         public void PopulateDeparture(string departure, bool withEnterPressing)
         {
             Departure.Clear();
@@ -67,6 +68,7 @@ namespace Lab_8___Framework_Step_2.Pages
                 while (CheckCityHelper()) { }
             }
         }
+
         public void PopulateArrival(string arrival, bool withEnterPressing)
         {
             Arrival.Clear();
@@ -78,11 +80,13 @@ namespace Lab_8___Framework_Step_2.Pages
                 while (CheckCityHelper()) { }
             }
         }
+
         public void PopulateDateTo(string DateFrom)
         {
             MainDatepikerTo.Clear();
             MainDatepikerTo.SendKeys(DateFrom);
         }
+
         public bool CheckPassengerInputHelper()
         {
             CountPassWidgetInput.Click();
@@ -100,13 +104,16 @@ namespace Lab_8___Framework_Step_2.Pages
         {
             foreach (var element in CountPassCounterInput)
             {
-                try
+                var AdultSections = element.FindElements(By.Name("ADT"));
+                if (AdultSections.Count == 1)
                 {
-                    element.FindElement(By.Name("ADT"));
-                    element.FindElement(By.ClassName("plus")).Click();
-                    break;
+                    var AdultInputs = element.FindElements(By.ClassName("plus"));
+                    if (AdultInputs.Count == 1)
+                    {
+                        AdultInputs.First().Click();
+                        break;
+                    }
                 }
-                catch { }
             }
         }
 

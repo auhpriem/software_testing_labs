@@ -18,7 +18,6 @@ namespace Lab_8___Framework_Step_2.Driver
             if (driver == null)
             {
                 driver = new OpenQA.Selenium.Chrome.ChromeDriver();
-                //driver.Manage().Timeouts().ImplicitWait.Add(TimeSpan.FromSeconds(30));
                 driver.Manage().Window.Maximize();
             }
             return driver;
